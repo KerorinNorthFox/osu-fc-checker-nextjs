@@ -2,14 +2,15 @@
 // ==============================
 // 読み込んだ譜面を表示するテーブル
 // ==============================
-import { Column, PagingTable } from "@yamada-ui/table";
 import { useMemo } from "react";
+import { Column, PagingTable } from "@yamada-ui/table";
+import { BeatmapData } from "@/lib/types/external";
 
 export interface BeatmapTableData {
   title: string;
   beatmapId: number;
   beatmapsetId: number;
-  yourCombo: number;
+  userCombo: number;
   maxCombo: number;
 }
 
@@ -36,7 +37,7 @@ const BeatmapTable = (props: BeatmapTableProps) => {
       },
       {
         header: "Your Combo",
-        accessorKey: "yourCombo",
+        accessorKey: "userCombo",
       },
       {
         header: "Max Combo",
@@ -57,3 +58,21 @@ const BeatmapTable = (props: BeatmapTableProps) => {
 };
 
 export default BeatmapTable;
+
+// Tableに表示するためにBeatmapDataをScoreDataに変換
+export function convertBeatmapDataToScoreData(
+  beatmaps: BeatmapData[],
+): BeatmapTableData[] {
+  let tableData: BeatmapTableData[] = [];
+  for (let i = 0; i < beatmaps.length; i++) {
+    const beatmap = beatmaps[i];
+    tableData.push({
+      title: beatmap.osu_file_name,
+      beatmapId: beatmap.beatmap_id,
+      beatmapsetId: beatmap.beatmapset_id,
+      userCombo: beatmap.user_combo,
+      maxCombo: beatmap.max_combo,
+    });
+  }
+  return tableData;
+}

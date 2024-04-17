@@ -16,7 +16,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  let token = "";
+  let token: string = "";
   // TODO: tokenをfetchする処理
   return (
     <html lang="en">
