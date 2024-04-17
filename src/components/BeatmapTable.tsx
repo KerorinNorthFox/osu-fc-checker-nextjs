@@ -14,11 +14,11 @@ export interface BeatmapTableData {
 }
 
 interface BeatmapTableProps {
-  tableData: BeatmapTableData[];
+  data: BeatmapTableData[];
 }
 
 const BeatmapTable = (props: BeatmapTableProps) => {
-  const { tableData } = props;
+  const { data } = props;
 
   const columns = useMemo<Column<BeatmapTableData>[]>(
     () => [
@@ -50,7 +50,7 @@ const BeatmapTable = (props: BeatmapTableProps) => {
     <>
       <PagingTable
         columns={columns}
-        data={tableData}
+        data={data}
       />
     </>
   );
