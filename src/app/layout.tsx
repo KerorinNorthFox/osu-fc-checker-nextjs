@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { UIProvider } from "@yamada-ui/react";
-import OsuTokenProvider from "@/components/stores/OsuTokenProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,14 +15,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  let token: string = "";
-  // TODO: tokenをfetchする処理
   return (
     <html lang="en">
       <body className={inter.className}>
-        <UIProvider>
-          <OsuTokenProvider token={token}>{children}</OsuTokenProvider>
-        </UIProvider>
+        <UIProvider>{children}</UIProvider>
       </body>
     </html>
   );
