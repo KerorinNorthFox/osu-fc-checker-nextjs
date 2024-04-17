@@ -11,8 +11,8 @@ const LoadingModal = (props: LoadingModalProps) => {
     <>
       <Modal
         isOpen={isOpen}
-        w="140px"
-        h="140px">
+        w="150px"
+        h="150px">
         <ModalBody>
           <div>
             <CircleProgress isAnimation />
