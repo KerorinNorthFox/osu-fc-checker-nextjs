@@ -8,10 +8,11 @@ import {
 
 interface SelectCollectionModalProps {
   isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SelectCollectionModal = (props: SelectCollectionModalProps) => {
-  const { isOpen } = props;
+  const { isOpen, setIsOpen } = props;
 
   return (
     <>
@@ -20,10 +21,12 @@ const SelectCollectionModal = (props: SelectCollectionModalProps) => {
           <RadioGroup>a</RadioGroup>
         </ModalBody>
         <ModalFooter>
-          <Button>Cancel</Button>
+          <Button onClick={() => setIsOpen(false)}>Cancel</Button>
           <Button>Select</Button>
         </ModalFooter>
       </Modal>
     </>
   );
 };
+
+export default SelectCollectionModal;
