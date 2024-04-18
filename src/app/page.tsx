@@ -2,17 +2,16 @@ import { Auth } from "osu-web.js";
 import HomeScreen from "@/components/screens/HomeScreen";
 import OsuTokenProvider from "@/components/stores/OsuTokenProvider";
 
-export default function Home() {
+export default async function Home() {
   let token: string = "";
-  getToken()
-    .then((guestToken) => {
-      token = guestToken.access_token;
-      console.log("tokenの取得に成功:", token);
-    })
-    .catch((e) => {
-      console.error("tokenの取得に失敗:", e);
-      alert("tokenの取得に失敗しました");
-    });
+  try {
+    const guestToken = await getToken();
+    token = guestToken.access_token;
+    console.log("tokenの取得に成功:", token);
+  } catch (e) {
+    console.error("tokenの取得に失敗:", e);
+    alert("tokenの取得に失敗しました");
+  }
 
   return (
     <OsuTokenProvider token={token}>
