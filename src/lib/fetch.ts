@@ -22,13 +22,13 @@ export async function fetchBeatmapInfo(
       console.time("getMaxCombo");
       maxCombo = await getMaxCombo(beatmap, token);
       console.timeEnd("getMaxCombo");
-      console.log("getUserCombo");
+      console.time("getUserCombo");
       try {
         userCombo = await getUserCombo(beatmap, token, 25394282); // FIXME: ユーザーを入力できるようにする
       } catch (e) {
         userCombo = 0;
       }
-      console.log("getUserCombo");
+      console.timeEnd("getUserCombo");
     }
     beatmapData.push(
       Object.assign(beatmap, { max_combo: maxCombo, user_combo: userCombo }),
