@@ -1,22 +1,33 @@
-import { CircleProgress, Modal, ModalBody } from "@yamada-ui/react";
+import {
+  Center,
+  CircleProgress,
+  Loading,
+  Modal,
+  ModalBody,
+  Progress,
+  VStack,
+} from "@yamada-ui/react";
 
 interface LoadingModalProps {
-  isOpen: boolean;
+  fileName: string;
 }
 
 const LoadingModal = (props: LoadingModalProps) => {
-  const { isOpen } = props;
+  const { fileName } = props;
 
   return (
     <>
       <Modal
-        isOpen={isOpen}
-        w="150px"
+        isOpen={true}
+        w="220px"
         h="150px">
-        <ModalBody>
-          <div>
-            <CircleProgress isAnimation />
-          </div>
+        <ModalBody padding="20px">
+          <VStack>
+            <p>Loading {fileName}</p>
+            <div>
+              <Progress isAnimation />
+            </div>
+          </VStack>
         </ModalBody>
       </Modal>
     </>
