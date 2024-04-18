@@ -28,10 +28,12 @@ const UploadFile = (props: UploadFileProps) => {
   } = props;
   const [isDropzoneDisabled, setIsDropzoneDisabled] = useState<boolean>(false);
   const [isOpenLoadingModal, setIsOpenLoadingModal] = useState<boolean>(false);
+  const [loadingFileName, setLoadingFileName] = useState<string>("");
 
   const onDropped = async (files: File[]) => {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
+      setLoadingFileName(file.name);
       // osu!.dbかcollection.db以外を弾く
       if (!file.name.match("^(osu!|collection).db$")) {
         alert(
@@ -41,6 +43,7 @@ const UploadFile = (props: UploadFileProps) => {
         );
         return;
       }
+      console.log("The file is correct.");
 
       try {
         const arrBuf = await readFileAsArrayBuffer(file);
@@ -59,24 +62,22 @@ const UploadFile = (props: UploadFileProps) => {
         });
 
         if (!res.ok) {
-          alert(`${res.statusText}\nファイルをアップロードできませんでした`);
+          alert(`${res.statusText}\nFailed to upload the DB.`);
           return;
         }
 
         const data = await res.json();
 
         if (!data.success) {
-          alert("DBファイルの読み込みに失敗しました");
+          alert("Failed to load the DB.");
           return;
         }
-        console.log("DB data:", data.data);
+        console.log("DB loading completed successfully.\n", data.data);
 
         if (file.name.match("osu!.db")) {
           setOsuDB(data.data);
         } else if (file.name.match("collection.db")) {
           setOsuCollectionDB(data.data);
-        } else {
-          alert("データのセットに失敗");
         }
       } catch (e) {
         alert(e);
@@ -84,8 +85,6 @@ const UploadFile = (props: UploadFileProps) => {
       }
     }
 
-    console.log("osuDB:", osuDB);
-    console.log("osuCollectionDB", osuCollectionDB);
     if (osuDB !== null && osuCollectionDB !== null) {
       setIsLoadDBComplete(true);
     }
@@ -108,7 +107,7 @@ const UploadFile = (props: UploadFileProps) => {
           Drop here or click to select <b>osu!.db</b> and <b>collection.db</b>
         </p>
       </Dropzone>
-      <LoadingModal isOpen={isOpenLoadingModal} />
+      {isOpenLoadingModal ? <LoadingModal fileName={loadingFileName} /> : <></>}
     </>
   );
 };

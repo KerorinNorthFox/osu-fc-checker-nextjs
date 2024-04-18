@@ -16,6 +16,7 @@ const HomeScreen = () => {
   const [osuDB, setOsuDB] = useState<OsuDB | null>(null);
   const [osuCollectionDB, setOsuCollectionDB] =
     useState<OsuCollectionDB | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
   const [isLoadDBComplete, setIsLoadDBComplete] = useState<boolean>(false);
   const [beatmapTableData, setBeatmapTableData] = useState<BeatmapTableData[]>(
     [],
@@ -36,6 +37,10 @@ const HomeScreen = () => {
     }
   }, [isLoadDBComplete]);
 
+  useEffect(() => {
+    console.log("selected index :", selectedIndex);
+  }, [selectedIndex]);
+
   return (
     <>
       <VStack>
@@ -46,12 +51,22 @@ const HomeScreen = () => {
           setOsuCollectionDB={setOsuCollectionDB}
           setIsLoadDBComplete={setIsLoadDBComplete}
         />
+        <div>
+          <p>{osuDB == null ? "osu!db is unloaded" : "osu!.db is loaded"}</p>
+          <p>
+            {osuCollectionDB == null
+              ? "collection.db is unloaded"
+              : "collection.db is loaded"}
+          </p>
+        </div>
         <BeatmapFilter />
         <BeatmapTable data={beatmapTableData} />
       </VStack>
       <SelectCollectionModal
+        osuCollectionDB={osuCollectionDB}
         isOpen={isOpenSelectCollectionModal}
         setIsOpen={setIsOpenSelectCollectionModal}
+        setIndex={setSelectedIndex}
       />
     </>
   );
