@@ -1,12 +1,7 @@
-import {
-  Center,
-  CircleProgress,
-  Loading,
-  Modal,
-  ModalBody,
-  Progress,
-  VStack,
-} from "@yamada-ui/react";
+// ==========================================
+// ファイルのロード中に表示するプログレスバー
+// ==========================================
+import { Modal, ModalBody, Progress, VStack } from "@yamada-ui/react";
 
 interface LoadingModalProps {
   fileName: string;
