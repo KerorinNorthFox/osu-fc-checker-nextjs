@@ -43,3 +43,8 @@ export enum BeatmapStatus {
   Qualified,
   Loved,
 }
+
+export enum GameMode {
+  Osu = 0,
+  Mania = 3,
+}

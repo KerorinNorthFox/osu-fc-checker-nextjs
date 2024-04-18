@@ -1,7 +1,15 @@
-import { Client } from "osu-web.js";
+import { GameMode } from "@/lib/types/external";
+import {
+  Client,
+  FruitsBeatmapDifficultyAttributes,
+  ManiaBeatmapDifficultyAttributes,
+  OsuBeatmapDifficultyAttributes,
+  TaikoBeatmapDifficultyAttributes,
+} from "osu-web.js";
 
 interface RequestType {
   token: string;
+  mode: number;
 }
 
 export async function POST(
@@ -14,10 +22,25 @@ export async function POST(
 
   try {
     const api = new Client(token);
-    const attributes = await api.beatmaps.getBeatmapAttributes(
-      beatmapId,
-      "osu",
-    );
+    let attributes:
+      | OsuBeatmapDifficultyAttributes
+      | ManiaBeatmapDifficultyAttributes
+      | TaikoBeatmapDifficultyAttributes
+      | FruitsBeatmapDifficultyAttributes;
+    switch (data.mode) {
+      case GameMode.Osu:
+        attributes = await api.beatmaps.getBeatmapAttributes(beatmapId, "osu");
+        break;
+      case GameMode.Mania:
+        attributes = await api.beatmaps.getBeatmapAttributes(
+          beatmapId,
+          "mania",
+        );
+        break;
+      default:
+        throw new Error("Invalid game mode." + data.mode);
+        break;
+    }
     console.log(beatmapId, " の譜面情報の取得に成功しました: ", attributes);
     return Response.json({ success: true, attributes: attributes });
   } catch (e) {

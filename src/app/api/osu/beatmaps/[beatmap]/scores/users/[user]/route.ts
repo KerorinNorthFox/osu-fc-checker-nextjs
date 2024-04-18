@@ -1,7 +1,9 @@
-import { Client } from "osu-web.js";
+import { GameMode } from "@/lib/types/external";
+import { BeatmapUserScore, Client } from "osu-web.js";
 
 interface RequestType {
   token: string;
+  mode: number;
 }
 
 export async function POST(
@@ -15,7 +17,26 @@ export async function POST(
 
   try {
     const api = new Client(token);
-    const score = await api.beatmaps.getBeatmapUserScore(beatmapId, userId);
+    let score: BeatmapUserScore;
+    switch (data.mode) {
+      case GameMode.Osu:
+        score = await api.beatmaps.getBeatmapUserScore(beatmapId, userId, {
+          query: {
+            mode: "osu",
+          },
+        });
+        break;
+      case GameMode.Mania:
+        score = await api.beatmaps.getBeatmapUserScore(beatmapId, userId, {
+          query: {
+            mode: "mania",
+          },
+        });
+        break;
+      default:
+        throw new Error("Invalid game mode." + data.mode);
+        break;
+    }
     console.log(beatmapId, " のスコア情報の取得に成功しました:", score);
     return Response.json({ success: true, score: score });
   } catch (e) {
