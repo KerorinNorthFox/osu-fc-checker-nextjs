@@ -7,9 +7,10 @@ export default function Home() {
   getToken()
     .then((guestToken) => {
       token = guestToken.access_token;
+      console.log("tokenの取得に成功:", token);
     })
     .catch((e) => {
-      console.log("tokenの取得に失敗:", e);
+      console.error("tokenの取得に失敗:", e);
       alert("tokenの取得に失敗しました");
     });
 
@@ -23,6 +24,7 @@ export default function Home() {
 }
 
 async function getToken() {
+  console.time("getToken");
   const osuClientIdString = process.env.OSU_CLIENT_ID;
   const osuClientSecret = process.env.OSU_CLIENT_SECRET;
   const osuRedirectUrl = process.env.OSU_REDIRECT_URL;
@@ -38,6 +40,6 @@ async function getToken() {
   const osuClientId = parseInt(osuClientIdString);
   const auth = new Auth(osuClientId, osuClientSecret, osuRedirectUrl);
   const token = await auth.clientCredentialsGrant();
-  console.log("tokenの取得に成功:", token);
+  console.timeEnd("getToken");
   return token;
 }
