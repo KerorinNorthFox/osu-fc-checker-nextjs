@@ -31,6 +31,7 @@ const UploadFile = (props: UploadFileProps) => {
   const [loadingFileName, setLoadingFileName] = useState<string>("");
 
   const onDropped = async (files: File[]) => {
+    console.time("onDropped");
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       setLoadingFileName(file.name);
@@ -43,7 +44,7 @@ const UploadFile = (props: UploadFileProps) => {
         );
         return;
       }
-      console.log("The file is correct.");
+      console.log(`The file "${file.name}" is correct.`);
 
       try {
         const arrBuf = await readFileAsArrayBuffer(file);
@@ -88,6 +89,7 @@ const UploadFile = (props: UploadFileProps) => {
     if (osuDB !== null && osuCollectionDB !== null) {
       setIsLoadDBComplete(true);
     }
+    console.timeEnd("onDropped");
   };
 
   return (

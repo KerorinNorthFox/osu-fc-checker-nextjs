@@ -63,6 +63,7 @@ export default BeatmapTable;
 export function convertBeatmapDataToScoreData(
   beatmaps: BeatmapData[],
 ): BeatmapTableData[] {
+  console.time("convertBeatmapDataToScoreData");
   let tableData: BeatmapTableData[] = [];
   for (let i = 0; i < beatmaps.length; i++) {
     const beatmap = beatmaps[i];
@@ -74,5 +75,6 @@ export function convertBeatmapDataToScoreData(
       maxCombo: beatmap.max_combo,
     });
   }
+  console.timeEnd("convertBeatmapDataToScoreData");
   return tableData;
 }

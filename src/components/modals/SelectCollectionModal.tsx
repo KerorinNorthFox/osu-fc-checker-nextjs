@@ -1,4 +1,8 @@
-import { OsuCollectionDB } from "@/lib/types/external";
+"use client";
+// ============================================
+// 読み込んだコレクションを選択するモーダル
+// ============================================
+import { ReactNode, useEffect, useState } from "react";
 import {
   Button,
   Modal,
@@ -7,7 +11,7 @@ import {
   Radio,
   RadioGroup,
 } from "@yamada-ui/react";
-import { ReactNode, useEffect, useState } from "react";
+import { OsuCollectionDB } from "@/lib/types/external";
 
 interface SelectCollectionModalProps {
   osuCollectionDB: OsuCollectionDB | null;
@@ -24,7 +28,7 @@ const SelectCollectionModal = (props: SelectCollectionModalProps) => {
   >();
 
   useEffect(() => {
-    console.log("useEffect > osuCollectionDB");
+    console.log("SelectCollectionModal > useEffect > osuCollectionDB");
     if (osuCollectionDB !== null) {
       const collection = osuCollectionDB.collection;
       const titles = collection.map((collection, index) => (
